@@ -5,14 +5,47 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
 
+enum VersusResult{
+	VICTORY{
+		@Override
+		public String toString() {
+			return "승리";
+		}
+		@Override
+		public VersusResult reverse() {
+			return DEFEAT;
+		}
+	}, DRAW{
+		@Override
+		public String toString() {
+			return "무승부";
+		}
+		@Override
+		public VersusResult reverse() {
+			return DRAW;
+		}
+	}, DEFEAT{
+		@Override
+		public String toString() {
+			return "패배";
+		}
+		@Override
+		public VersusResult reverse() {
+			return VICTORY;
+		}
+	};
+	
+	public abstract VersusResult reverse();
+}
+
 abstract class Gesture{
 	protected String name;
 	protected int code;
 	
-	public abstract String compareWith(Gesture other);
-	public abstract String compareWith(Rock rock);
-	public abstract String compareWith(Scissor scissor);
-	public abstract String compareWith(Paper paper);
+	public abstract VersusResult compareWith(Gesture other);
+	public abstract VersusResult compareWith(Rock rock);
+	public abstract VersusResult compareWith(Scissor scissor);
+	public abstract VersusResult compareWith(Paper paper);
 	
 	@Override
 	public String toString() {
@@ -26,20 +59,20 @@ class Rock extends Gesture {
 		code = 0;
 	}
 	
-	@Override public String compareWith(Gesture other) {
-		return other.compareWith(this);
+	@Override public VersusResult compareWith(Gesture other) {
+		return other.compareWith(this).reverse();
 	}	
 	@Override
-	public String compareWith(Rock rock) {
-		return "무승부";
+	public VersusResult compareWith(Rock rock) {
+		return VersusResult.DRAW;
 	}
 	@Override
-	public String compareWith(Scissor scissor) {
-		return "승리";
+	public VersusResult compareWith(Scissor scissor) {
+		return VersusResult.VICTORY;
 	}
 	@Override
-	public String compareWith(Paper paper) {
-		return "패배";
+	public VersusResult compareWith(Paper paper) {
+		return VersusResult.DEFEAT;
 	}
 }
 
@@ -49,20 +82,20 @@ class Scissor extends Gesture{
 		code = 1;
 	}
 
-	@Override public String compareWith(Gesture other) {
-		return other.compareWith(this);
+	@Override public VersusResult compareWith(Gesture other) {
+		return other.compareWith(this).reverse();
 	}	
 	@Override
-	public String compareWith(Rock rock) {
-		return "패배";
+	public VersusResult compareWith(Rock rock) {
+		return VersusResult.DEFEAT;
 	}
 	@Override
-	public String compareWith(Scissor scissor) {
-		return "무승부";
+	public VersusResult compareWith(Scissor scissor) {
+		return VersusResult.DRAW;
 	}
 	@Override
-	public String compareWith(Paper paper) {
-		return "승리";
+	public VersusResult compareWith(Paper paper) {
+		return VersusResult.VICTORY;
 	}
 }
 
@@ -72,20 +105,20 @@ class Paper extends Gesture{
 		code = 2;
 	}
 
-	@Override public String compareWith(Gesture other) {
-		return other.compareWith(this);
+	@Override public VersusResult compareWith(Gesture other) {
+		return other.compareWith(this).reverse();
 	}	
 	@Override
-	public String compareWith(Rock rock) {
-		return "승리";
+	public VersusResult compareWith(Rock rock) {
+		return VersusResult.VICTORY;
 	}
 	@Override
-	public String compareWith(Scissor scissor) {
-		return "패배";
+	public VersusResult compareWith(Scissor scissor) {
+		return VersusResult.DEFEAT;
 	}
 	@Override
-	public String compareWith(Paper paper) {
-		return "무승부";
+	public VersusResult compareWith(Paper paper) {
+		return VersusResult.DRAW;
 	}
 }
 
@@ -125,6 +158,6 @@ public class RPSwithInheritance {
 		
 		System.out.println("플레이어의 선택:" + playerSelect);
 		System.out.println("컴퓨터의 선택:" + computerSelect);
-		System.out.println("결과: " + computerSelect.compareWith(playerSelect));
+		System.out.println("결과: " + playerSelect.compareWith(computerSelect));
 	}
 }
