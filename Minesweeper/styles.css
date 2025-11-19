@@ -1,0 +1,12 @@
+.cell-grid {
+    -fx-background-color: #b8c6db;
+    -fx-background-insets: 0;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 18, 0.2, 0, 6);
+}
+
+.Counter-Label{
+	-fx-background-color: #111;
+	-fx-text-fill: #36ff8f;
+	-fx-background-radius: 6;
+}

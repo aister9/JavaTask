@@ -58,6 +58,23 @@ public class GameBoard {
 		this(d.cols, d.rows, d.bombs);
 	}
 	
+	public GameBoard(GameBoard other) {
+		this.rows = other.rows;
+		this.cols = other.cols;
+		this.number_of_bomb = other.number_of_bomb;
+		this.notOpened = other.notOpened;
+		this.isFind = other.isFind;
+        this.flagCount = other.flagCount;
+		
+        this.grid = new Cell[rows][cols];
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                this.grid[r][c] = new Cell(other.grid[r][c]); // Cell 복사 생성자 사용
+            }
+        }
+
+	}
+	
 	public boolean open(int x, int y) {
 		if(grid[y][x].isOpen()) return false;
 
@@ -136,4 +153,9 @@ public class GameBoard {
 	public boolean isFind() {
 		return isFind;
 	}
+	
+    @Override
+    public GameBoard clone() {
+        return new GameBoard(this);
+    }
 }

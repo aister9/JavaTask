@@ -4,9 +4,15 @@ import java.util.function.BiConsumer;
 
 import Minesweeper.Difficulty;
 import Minesweeper.Model.GameBoard;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.util.Duration;
 
 public class CellGrid extends GridPane {
 	private CellBlock[][] grids;
@@ -50,8 +56,9 @@ public class CellGrid extends GridPane {
 		}
 
 		setAlignment(Pos.CENTER);
-		setStyle("-fx-background-color: #b8c6db; -fx-background-insets: 0; -fx-background-radius: 10;"
-				+ "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 18, 0.2, 0, 6);");
+		getStyleClass().add("cell-grid");
+		
+		playSpawnAnimation();
 	}
 
 	public CellGrid(Difficulty d) {
@@ -97,4 +104,33 @@ public class CellGrid extends GridPane {
 			}
 		}
 	}
+	
+	private void playSpawnAnimation() {
+	    Platform.runLater(() -> {
+	        for (int y = 0; y < rows; y++) {
+	            for (int x = 0; x < cols; x++) {
+	                CellBlock cell = grids[y][x];
+
+	                cell.setOpacity(0.0);
+	                cell.setScaleX(0.6);
+	                cell.setScaleY(0.6);
+
+	                int distance = x + y;
+	                Duration delay = Duration.millis(75 * (distance+1));
+
+	                Timeline tl = new Timeline(
+	                    new KeyFrame(
+	                        delay,
+	                        new KeyValue(cell.opacityProperty(), 1.0, Interpolator.EASE_OUT),
+	                        new KeyValue(cell.scaleXProperty(), 1.0, Interpolator.EASE_OUT),
+	                        new KeyValue(cell.scaleYProperty(), 1.0, Interpolator.EASE_OUT)
+	                    )
+	                );
+	                tl.play();
+	            }
+	        }
+	    });
+
+	}
+
 }

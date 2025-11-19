@@ -37,6 +37,11 @@ public class TopBar extends HBox {
 		
 		timerLabel = new Label("⏱ 000");
 		bombsLabel = new Label("💣 010");
+
+		timerLabel.setPadding(new Insets(6, 10, 6, 10));
+		bombsLabel.setPadding(new Insets(6, 10, 6, 10));
+		timerLabel.getStyleClass().add("Counter-Label");
+		bombsLabel.getStyleClass().add("Counter-Label");
 		
 		HBox right = new HBox(12, bombsLabel, timerLabel);
 		right.setAlignment(Pos.CENTER_RIGHT);
@@ -57,6 +62,10 @@ public class TopBar extends HBox {
 	
 	public StringProperty bombsLabelProperty() {
 		return bombsLabel.textProperty();
+	}
+	
+	public StringProperty timerLabelProperty() {
+		return timerLabel.textProperty();
 	}
 	
 	public void setOnNewGameBtn(EventHandler<ActionEvent> e) {

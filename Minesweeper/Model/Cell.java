@@ -7,6 +7,15 @@ public class Cell {
 	private boolean flagged = false;
 	private int nearBomb = 0;
 
+	public Cell() {}
+	
+	public Cell(Cell other) {
+		this.state = other.state;
+		this.type = other.type;
+		this.flagged = other.flagged;
+		this.nearBomb = other.nearBomb;
+	}
+	
 	public boolean open() {
 		if (state == CellState.OPEN)
 			return false;
